@@ -1,3 +1,1 @@
-
-Flask restful app with use of pydantic, postgresql and swagger
-
+Google APP engine for document generator
