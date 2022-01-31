@@ -1,0 +1,25 @@
+{
+    "dataItem": {
+      "metadata": {
+        "client_name": "Client name",
+        "date": "Some date",
+        "location": "LA"
+      },
+      "sectionDataList": [
+        {
+          "number": "43",
+          "scope": "53",
+          "score": 0,
+          "title": "Some title"
+        }
+      ],
+      "subsectionDataList": [
+        {
+          "comments": "Simple comment",
+          "number": "5454",
+          "score": 23,
+          "title": "Subsection title"
+        }
+      ]
+    }
+}
