@@ -9,8 +9,6 @@ black
 flake8
 python-dotenv
 psycopg2-binary
-Flask-SQLAlchemy
-Flask-Migrate
 Flask-Login
 Flask
 pytest
