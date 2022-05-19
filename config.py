@@ -1,6 +1,8 @@
 import os
+from dotenv import load_dotenv
 
-base_dir = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+load_dotenv(os.path.join(BASE_DIR, ".env"))
 
 
 class BaseConfig(object):
@@ -16,6 +18,10 @@ class BaseConfig(object):
     GCP_LOCATION = os.environ.get("GCP_LOCATION") or "Provide GCP location ID"
     GCP_TARGET_URL = os.environ.get("GCP_TARGET_URL") or "Provide Target URL"
     GOOGLE_APPLICATION_CREDENTIALS = "peritax-auditing-6d669fbb995d.cred.json"
+
+    SUPABASE_URL = os.environ.get("SUPABASE_URL")
+    SUPABASE_API_KEY = os.environ.get("SUPABASE_API_KEY")
+    SUPABASE_BEARER_TOKEN = os.environ.get("SUPABASE_BEARER_TOKEN")
 
     @staticmethod
     def configure(app):
