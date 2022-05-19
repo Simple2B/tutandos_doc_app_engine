@@ -1,6 +1,9 @@
 from flask import current_app as app
 from supabase import create_client
 
+# from pydantic import parse_obj_as
+# from app.pydantic_models.basic_models import SupabaseItems
+
 
 class Good:
     def __init__(self) -> None:
@@ -10,6 +13,7 @@ class Good:
 
     def get(self) -> list:
         query = self.supabase.table("testing_goods").select("*").execute()
+        # print(type(query.data))
 
         return query.data
 

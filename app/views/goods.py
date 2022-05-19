@@ -1,3 +1,4 @@
+from flask import request
 from app.views.blueprint import BlueprintApi
 from app.supabaseops import Good
 
@@ -10,6 +11,7 @@ def get_goods():
     goods = Good()
     query_data = goods.get()
     return {"key": query_data}, 200
+    # return query_data
 
 
 @api_docgen.route("/get_item/<int:item_id>", methods=["GET", "POST"])
@@ -23,18 +25,18 @@ def get_item(item_id):
 @api_docgen.route("/new_item", methods=["GET", "POST"])
 def new_item():
     goods = Good()
-    name_hardcoded = "Iron"
-    price_hardcoded = 300
-    insert_data = goods.post(name=name_hardcoded, price=price_hardcoded)
+    name = request.form["name"]
+    price = request.form["price"]
+    insert_data = goods.post(name=name, price=price)
 
     return {"key": insert_data}, 201
 
 
-@api_docgen.route("/update_item/<int:item_id>", methods=["GET", "POST"])
+@api_docgen.route("/update_item/<int:item_id>", methods=["GET", "POST", "PUT"])
 def update_item(item_id):
     goods = Good()
-    price_hardcoded = 350
-    update_data = goods.update(id=item_id, price=price_hardcoded)
+    price = request.form["price"]
+    update_data = goods.update(id=item_id, price=price)
 
     return {"key": update_data}, 200
 
