@@ -12,6 +12,14 @@ def get_goods():
     return {"key": query_data}, 200
 
 
+@api_docgen.route("/get_item/<int:item_id>", methods=["GET", "POST"])
+def get_item(item_id):
+    goods = Good()
+    update_data = goods.get_item(id=item_id)
+
+    return {"key": update_data}, 200
+
+
 @api_docgen.route("/new_item", methods=["GET", "POST"])
 def new_item():
     goods = Good()
@@ -28,4 +36,12 @@ def update_item(item_id):
     price_hardcoded = 350
     update_data = goods.update(id=item_id, price=price_hardcoded)
 
-    return {"key": update_data}, 204
+    return {"key": update_data}, 200
+
+
+@api_docgen.route("/delete_item/<int:item_id>", methods=["GET", "POST"])
+def delete_item(item_id):
+    goods = Good()
+    delete_data = goods.delete(id=item_id)
+
+    return {"key": delete_data}, 204
