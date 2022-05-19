@@ -1,6 +1,4 @@
 from app.views.blueprint import BlueprintApi
-from flask import current_app as app
-from supabase import create_client
 from app.supabaseops import Good
 
 # Set up Bluerints
@@ -21,4 +19,13 @@ def new_item():
     price_hardcoded = 300
     insert_data = goods.post(name=name_hardcoded, price=price_hardcoded)
 
-    return {"key": insert_data}, 200
+    return {"key": insert_data}, 201
+
+
+@api_docgen.route("/update_item/<int:item_id>", methods=["GET", "POST"])
+def update_item(item_id):
+    goods = Good()
+    price_hardcoded = 350
+    update_data = goods.update(id=item_id, price=price_hardcoded)
+
+    return {"key": update_data}, 204

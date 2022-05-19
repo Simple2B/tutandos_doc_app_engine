@@ -13,7 +13,7 @@ class Good:
 
         return query.data
 
-    def post(self, name, price):
+    def post(self, name, price) -> list:
         insert = (
             self.supabase.table("testing_goods")
             .insert({"name": name, "price": price})
@@ -22,8 +22,15 @@ class Good:
 
         return insert.data
 
-    def update(self):
-        pass
+    def update(self, id, name=None, price=None):
+        update = (
+            self.supabase.table("testing_goods")
+            .update({"price": price})
+            .eq("id", id)
+            .execute()
+        )
+
+        return update.data
 
     def delete(self):
         pass
