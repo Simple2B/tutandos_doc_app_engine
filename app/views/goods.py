@@ -16,14 +16,9 @@ def get_goods():
 
 @api_docgen.route("/new_item", methods=["GET", "POST"])
 def new_item():
-    SUPABASE_URL = app.config.get("SUPABASE_URL")
-    SUPABASE_API_KEY = app.config.get("SUPABASE_API_KEY")
+    goods = Good()
+    name_hardcoded = "Iron"
+    price_hardcoded = 300
+    insert_data = goods.post(name=name_hardcoded, price=price_hardcoded)
 
-    supabase = create_client(SUPABASE_URL, SUPABASE_API_KEY)
-    query = (
-        supabase.table("testing_goods")
-        .insert({"name": "Phone2", "price": "100"})
-        .execute()
-    )
-
-    return {"key": query.data}, 200
+    return {"key": insert_data}, 200
