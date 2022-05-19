@@ -4,6 +4,7 @@ from flask_openapi3 import OpenAPI
 from flask_openapi3.models import Info
 from flask_openapi3.models.security import HTTPBearer
 from firebase_admin import auth
+from app.services import db
 
 
 def create_app(environment="development"):
@@ -20,6 +21,7 @@ def create_app(environment="development"):
     app.config.from_object(config[env])
     config[env].configure(app)
     app.config["VALIDATE_RESPONSE"] = True
+    db.init_app(app)
     # doc_generator.configure(config[env])
 
     from app.views import api_docgen

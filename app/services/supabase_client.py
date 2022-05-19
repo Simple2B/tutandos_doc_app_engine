@@ -1,21 +1,23 @@
-from flask import current_app as app
 from supabase import create_client
+from typing import List
 
 # from pydantic import parse_obj_as
-# from app.pydantic_models.basic_models import SupabaseItems
+
+from app.pydantic_models.basic_models import SupabaseItem, SupabaseItems
 
 
-class Good:
-    def __init__(self) -> None:
+class SupabaseClient:
+    def init_app(self, app) -> None:
         self.SUPABASE_URL = app.config.get("SUPABASE_URL")
         self.SUPABASE_API_KEY = app.config.get("SUPABASE_API_KEY")
         self.supabase = create_client(self.SUPABASE_URL, self.SUPABASE_API_KEY)
 
-    def get(self) -> list:
+    def get(self) -> List:
         query = self.supabase.table("testing_goods").select("*").execute()
-        # print(type(query.data))
 
-        return query.data
+        data = [SupabaseItem.parse_obj(i) for i in query.data]
+
+        return SupabaseItems(key=data)
 
     def get_item(self, id):
         select = self.supabase.table("testing_goods").select("*").eq("id", id).execute()

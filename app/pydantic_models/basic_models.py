@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 from typing import List
 
@@ -11,7 +12,8 @@ class SupabaseItem(BaseModel):
     id: int
     name: str
     price: int
+    created_at: datetime
 
 
 class SupabaseItems(BaseModel):
-    items: List[SupabaseItem]
+    key: List[SupabaseItem]
