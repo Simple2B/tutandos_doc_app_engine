@@ -30,7 +30,7 @@ class SupabaseClient:
     def update(self, id, name=None, price=None):
         update = (
             self.supabase.table("testing_goods")
-            .update({"price": price})
+            .update({"price": price, "name": name})
             .eq("id", id)
             .execute()
         )

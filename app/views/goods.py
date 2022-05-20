@@ -25,15 +25,16 @@ def new_item():
     price = request.form["price"]
     insert_data = db.post(name=name, price=price)
 
-    return {"key": insert_data}, 201
+    return jsonify(insert_data), 201
 
 
 @api_docgen.route("/update_item/<int:item_id>", methods=["GET", "POST", "PUT"])
 def update_item(item_id):
+    name = request.form["name"]
     price = request.form["price"]
-    update_data = db.update(id=item_id, price=price)
+    update_data = db.update(id=item_id, name=name, price=price)
 
-    return {"key": update_data}, 200
+    return jsonify(update_data), 200
 
 
 @api_docgen.route("/delete_item/<int:item_id>", methods=["GET", "POST"])
