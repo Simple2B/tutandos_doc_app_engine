@@ -9,7 +9,6 @@ api_docgen = BlueprintApi("/", __name__)
 @api_docgen.get("/goods")
 def get_goods():
     query_data = db.get()
-    # return {"key": query_data}, 200
     return jsonify(query_data)
 
 

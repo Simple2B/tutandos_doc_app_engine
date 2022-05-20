@@ -6,6 +6,8 @@ from app.controllers import init_testing_db, drop_testing_db
 
 @pytest.fixture
 def client():
+
+    pass
     app = create_app(environment="testing")
     app.config["TESTING"] = True
 
@@ -22,4 +24,23 @@ def test_get_goods(client):
     response = client.get("/goods")
     assert response.status_code == 200
     data = json.loads(response.get_data(as_text=True))
-    assert data[0]["name"] == "item_1"
+    TESTING_NAME = "item_1"
+    assert data[0]["name"] == TESTING_NAME
+
+    # Get single item
+    TESTING_ID = data[0]["id"]
+    response = client.get(f"/get_item/{TESTING_ID}")
+    assert response.status_code == 200
+
+
+def test_insert_item(client):
+    TESTING_NAME = "Testing Item"
+    TESTING_PRICE = 370
+    response = client.post(
+        "/new_item",
+        data=dict(
+            name=TESTING_NAME,
+            price=TESTING_PRICE,
+        ),
+    )
+    assert response.status_code == 201
