@@ -43,6 +43,10 @@ class TestingConfig(BaseConfig):
     PRESERVE_CONTEXT_ON_EXCEPTION = False
     GCP_QUEUE_NAME = "TEST-DOC-GEN-QUEUE"
 
+    SUPABASE_URL = (
+        "https://utitytmrxlwyizpxegtv.supabase.co/rest/v1/testing_db?select=*"
+    )
+
 
 class ProductionConfig(BaseConfig):
     """Production configuration."""

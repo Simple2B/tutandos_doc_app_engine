@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, jsonify
 from app.views.blueprint import BlueprintApi
 from app.services import db
 
@@ -8,9 +8,9 @@ api_docgen = BlueprintApi("/", __name__)
 
 @api_docgen.get("/goods")
 def get_goods():
-    # query_data = db.get()
-    return db.get(), 200
-    # return query_data
+    query_data = db.get()
+    # return {"key": query_data}, 200
+    return jsonify(query_data)
 
 
 @api_docgen.route("/get_item/<int:item_id>", methods=["GET", "POST"])

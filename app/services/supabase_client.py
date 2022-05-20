@@ -1,10 +1,6 @@
 from supabase import create_client
 from typing import List
 
-# from pydantic import parse_obj_as
-
-from app.pydantic_models.basic_models import SupabaseItem, SupabaseItems
-
 
 class SupabaseClient:
     def init_app(self, app) -> None:
@@ -15,9 +11,7 @@ class SupabaseClient:
     def get(self) -> List:
         query = self.supabase.table("testing_goods").select("*").execute()
 
-        data = [SupabaseItem.parse_obj(i) for i in query.data]
-
-        return SupabaseItems(key=data)
+        return query.data
 
     def get_item(self, id):
         select = self.supabase.table("testing_goods").select("*").eq("id", id).execute()
