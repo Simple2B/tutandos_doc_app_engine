@@ -1,6 +1,6 @@
 from flask import json
 
-TESTING_DATA = [
+testing_data = [
     {
         "created_at": "2022-05-18T13:41:36+00:00",
         "id": 1,
@@ -38,7 +38,7 @@ def test_get_goods_routes(client, monkeypatch):
     from app import db
 
     def mock_get():
-        return TESTING_DATA
+        return testing_data
 
     monkeypatch.setattr(db, "get", mock_get)
     response = client.get("/goods")
@@ -50,7 +50,7 @@ def test_get_goods_routes(client, monkeypatch):
 
     # Get single item
     def mock_get_item(id):
-        return [TESTING_DATA[0]]
+        return [testing_data[0]]
 
     monkeypatch.setattr(db, "get_item", mock_get_item)
     response = client.get("/get_item/1")
@@ -59,19 +59,35 @@ def test_get_goods_routes(client, monkeypatch):
     assert data[0]["id"] == 1
 
 
-# def test_insert_item_routes(client):
-#     TESTING_NAME = "Testing Item"
-#     TESTING_PRICE = 370
-#     response = client.post(
-#         "/new_item",
-#         data=dict(
-#             name=TESTING_NAME,
-#             price=TESTING_PRICE,
-#         ),
-#     )
-#     assert response.status_code == 201
-#     data = json.loads(response.get_data(as_text=True))
-#     assert data[-1]["price"] == TESTING_PRICE
+def test_insert_item_routes(client, monkeypatch):
+    from app import db
+
+    TESTING_NAME = "Testing Item"
+    TESTING_PRICE = 370
+
+    def mock_post(name, price):
+        testing_data.append(
+            {
+                "created_at": "2022-05-18T13:42:56+00:00",
+                "id": 7,
+                "name": TESTING_NAME,
+                "price": TESTING_PRICE,
+            }
+        )
+        return [testing_data[-1]]
+
+    monkeypatch.setattr(db, "post", mock_post)
+
+    response = client.post(
+        "/new_item",
+        data=dict(
+            name=TESTING_NAME,
+            price=TESTING_PRICE,
+        ),
+    )
+    assert response.status_code == 201
+    data = json.loads(response.get_data(as_text=True))
+    assert data[0]["price"] == TESTING_PRICE
 
 
 # def test_update_item_routes(client):
