@@ -62,3 +62,13 @@ def test_update_item(client):
     assert response.status_code == 200
     data = json.loads(response.get_data(as_text=True))
     assert data[-1]["price"] == TESTING_PRICE
+
+
+def test_delete_item(client):
+    response = client.get("/goods")
+    data = json.loads(response.get_data(as_text=True))
+    TESTING_ID = data[0]["id"]
+    response = client.post(
+        f"/delete_item/{TESTING_ID}",
+    )
+    assert response.status_code == 204
