@@ -90,29 +90,42 @@ def test_insert_item_routes(client, monkeypatch):
     assert data[0]["price"] == TESTING_PRICE
 
 
-# def test_update_item_routes(client):
-#     response = client.get("/goods")
-#     data = json.loads(response.get_data(as_text=True))
-#     TESTING_ID = data[0]["id"]
-#     TESTING_NAME = "Testing Item"
-#     TESTING_PRICE = 480
-#     response = client.post(
-#         f"/update_item/{TESTING_ID}",
-#         data=dict(
-#             name=TESTING_NAME,
-#             price=TESTING_PRICE,
-#         ),
-#     )
-#     assert response.status_code == 200
-#     data = json.loads(response.get_data(as_text=True))
-#     assert data[-1]["price"] == TESTING_PRICE
+def test_update_item_routes(client, monkeypatch):
+    from app import db
+
+    TESTING_ID = 3
+    TESTING_NAME = "Item Updated"
+    TESTING_PRICE = 480
+
+    def mock_update(id, name, price):
+        testing_data[TESTING_ID]["name"] = TESTING_NAME
+        testing_data[TESTING_ID]["price"] = TESTING_PRICE
+        return [testing_data[TESTING_ID]]
+
+    monkeypatch.setattr(db, "update", mock_update)
+
+    response = client.post(
+        f"/update_item/{TESTING_ID}",
+        data=dict(
+            name=TESTING_NAME,
+            price=TESTING_PRICE,
+        ),
+    )
+    assert response.status_code == 200
+    data = json.loads(response.get_data(as_text=True))
+    assert data[0]["price"] == TESTING_PRICE
 
 
-# def test_delete_item_routes(client):
-#     response = client.get("/goods")
-#     data = json.loads(response.get_data(as_text=True))
-#     TESTING_ID = data[0]["id"]
-#     response = client.post(
-#         f"/delete_item/{TESTING_ID}",
-#     )
-#     assert response.status_code == 204
+def test_delete_item_routes(client, monkeypatch):
+    from app import db
+
+    TESTING_ID = 4
+
+    def mock_update(id, name, price):
+        return [testing_data[TESTING_ID]]
+
+    monkeypatch.setattr(db, "update", mock_update)
+    response = client.post(
+        f"/delete_item/{TESTING_ID}",
+    )
+    assert response.status_code == 204
