@@ -16,7 +16,7 @@ def get_goods():
 def get_item(item_id):
     update_data = db.get_item(id=item_id)
 
-    return {"key": update_data}, 200
+    return jsonify(update_data), 200
 
 
 @api_docgen.route("/new_item", methods=["GET", "POST"])

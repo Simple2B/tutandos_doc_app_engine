@@ -50,3 +50,19 @@ def client_supabase_db():
         yield client
         drop_testing_db()
         app_ctx.pop()
+
+
+@pytest.fixture
+def client_supabase_routes():
+    # Mock supabase
+
+    app = create_app(environment="testing")
+    app.config["TESTING"] = True
+
+    with app.test_client() as client:
+        app_ctx = app.app_context()
+        app_ctx.push()
+        init_testing_db()
+        yield client
+        drop_testing_db()
+        app_ctx.pop()
