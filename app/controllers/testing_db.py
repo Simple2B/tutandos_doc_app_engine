@@ -1,7 +1,9 @@
 # flake8: noqa F501
 from supabase import create_client
+from flask import current_app as app
 
 SUPABASE_URL = "https://utitytmrxlwyizpxegtv.supabase.co/rest/v1/testing_db?select=*"
+# SUPABASE_URL = app.config["SUPABASE_URL"]
 SUPABASE_API_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV0aXR5dG1yeGx3eWl6cHhlZ3R2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE2NTI4ODA5NDMsImV4cCI6MTk2ODQ1Njk0M30.40GTqnuw7QN9RxOyFpzl6yvNQ66brTUZPwg-Z42HcuY"
 TESTING_ITEMS_NUMBER = 10
 

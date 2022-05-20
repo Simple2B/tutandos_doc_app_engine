@@ -22,3 +22,4 @@ def test_get_goods(client):
     response = client.get("/goods")
     assert response.status_code == 200
     data = json.loads(response.get_data(as_text=True))
+    assert data[0]["name"] == "item_1"
