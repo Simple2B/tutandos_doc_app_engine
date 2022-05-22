@@ -1,8 +1,9 @@
 from supabase import create_client
 from typing import List
+from .supabase_interface import SupaBaseClientInterface
 
 
-class SupabaseClient:
+class SupabaseClient(SupaBaseClientInterface):
     def init_app(self, app) -> None:
         self.SUPABASE_URL = app.config.get("SUPABASE_URL")
         self.SUPABASE_API_KEY = app.config.get("SUPABASE_API_KEY")
