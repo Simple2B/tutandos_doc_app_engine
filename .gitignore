@@ -140,3 +140,5 @@ app/static/css/style.scss
 dump*.sql
 .DS_Store
 db.dump
+
+todo.txt

@@ -1,4 +1,4 @@
-from app.views.blueprint import BlueprintApi
+from app.views.v1.blueprint import BlueprintApi
 from app.logger import logger
 from flask_openapi3.models import Tag
 from flask_jwt_extended import jwt_required
@@ -12,7 +12,7 @@ TAG = Tag(name="DocGen", description="Create document")
 api_docgen = BlueprintApi("/", __name__, abp_tags=[TAG], abp_security=SECURITY)
 
 
-@api_docgen.post('/document', responses={"200": DocumentGeneratedResponse})
+@api_docgen.post("/document", responses={"200": DocumentGeneratedResponse})
 @logger.catch
 @jwt_required()
 def generate_document(body: DocumentModel):

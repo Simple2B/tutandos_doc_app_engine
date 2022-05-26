@@ -1,3 +1,4 @@
+supabase
 wheel
 ez_setup
 gunicorn
