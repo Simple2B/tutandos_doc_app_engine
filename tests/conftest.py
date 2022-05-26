@@ -1,7 +1,8 @@
 import pytest
 from app import create_app
 from .utils import TOKEN_ID_FILEPATH
-from app.controllers import init_testing_db, drop_testing_db
+
+# from app.controllers import init_testing_db, drop_testing_db
 
 
 def get_test_app():
@@ -38,18 +39,18 @@ def client_with_jwt(scope="function"):
             app_ctx.pop()
 
 
-@pytest.fixture
-def client_supabase_db():
-    app = create_app(environment="testing")
-    app.config["TESTING"] = True
+# @pytest.fixture
+# def client_supabase_db():
+#     app = create_app(environment="testing")
+#     app.config["TESTING"] = True
 
-    with app.test_client() as client:
-        app_ctx = app.app_context()
-        app_ctx.push()
-        init_testing_db()
-        yield client
-        drop_testing_db()
-        app_ctx.pop()
+#     with app.test_client() as client:
+#         app_ctx = app.app_context()
+#         app_ctx.push()
+#         init_testing_db()
+#         yield client
+#         drop_testing_db()
+#         app_ctx.pop()
 
 
 @pytest.fixture
@@ -62,7 +63,5 @@ def client_supabase_routes():
     with app.test_client() as client:
         app_ctx = app.app_context()
         app_ctx.push()
-        init_testing_db()
         yield client
-        drop_testing_db()
         app_ctx.pop()

@@ -20,7 +20,7 @@ class BaseConfig(object):
     GOOGLE_APPLICATION_CREDENTIALS = "peritax-auditing-6d669fbb995d.cred.json"
 
     SUPABASE_URL = os.environ.get("SUPABASE_URL")
-    SUPABASE_API_KEY = os.environ.get("SUPABASE_API_KEY")
+    SUPABASE_API_KEY = os.environ.get("SUPABASE_API_KEY", "somedummykey*")
     SUPABASE_BEARER_TOKEN = os.environ.get("SUPABASE_BEARER_TOKEN")
 
     @staticmethod

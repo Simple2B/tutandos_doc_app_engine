@@ -98,10 +98,10 @@ def test_update_item_routes(client, monkeypatch):
 def test_delete_item_routes(client, monkeypatch):
     TESTING_ID = 4
 
-    def mock_update(id, name, price):
+    def mock_delete(id):
         return [testing_data[TESTING_ID]]
 
-    monkeypatch.setattr(db, "update", mock_update)
+    monkeypatch.setattr(db, "delete", mock_delete)
     response = client.post(
         f"/delete_item/{TESTING_ID}",
     )
