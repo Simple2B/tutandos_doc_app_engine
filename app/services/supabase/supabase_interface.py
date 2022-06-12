@@ -1,14 +1,15 @@
+from flask import Flask
 from typing import List
 from abc import ABC, abstractmethod
 
 
 class SupaBaseClientInterface(ABC):
     @abstractmethod
-    def init_app(self, app):
+    def init_app(self, app: Flask):
         ...
 
     @abstractmethod
-    def get(self) -> List:
+    def get(self, table: str, eq={}, count=None) -> List:
         ...
 
     @abstractmethod
@@ -16,7 +17,7 @@ class SupaBaseClientInterface(ABC):
         ...
 
     @abstractmethod
-    def post(self, name, price) -> list:
+    def create(self, name, price) -> list:
         ...
 
     @abstractmethod

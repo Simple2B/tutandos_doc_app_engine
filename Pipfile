@@ -1,0 +1,28 @@
+[[source]]
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+supabase = "*"
+ez_setup = "*"
+gunicorn = "*"
+loguru = "*"
+pydantic = "*"
+flask-openapi3 = "*"
+Flask-JWT-Extended = "*"
+black = "*"
+flake8 = "*"
+python-dotenv = "*"
+psycopg2-binary = "*"
+Flask-Login = "*"
+Flask = "*"
+pytest = "*"
+google-cloud-tasks = "*"
+firebase-admin = "*"
+google-auth = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.8"

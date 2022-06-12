@@ -1,20 +1,25 @@
 from app.views.v1.blueprint import BlueprintApi
-from app.logger import logger
 from flask_openapi3.models import Tag
-from flask_jwt_extended import jwt_required
+# from flask_jwt_extended import jwt_required
 from app.pydantic_models import DocumentModel, DocumentGeneratedResponse
-from app.services import doc_generator
+from app.services import service_document
 
 
 # Set up Bluerints
-SECURITY = [{"jwt": []}]
+# SECURITY = [{"jwt": []}]
 TAG = Tag(name="DocGen", description="Create document")
-api_docgen = BlueprintApi("/", __name__, abp_tags=[TAG], abp_security=SECURITY)
+# api_docgen = BlueprintApi("Document", __name__, abp_tags=[TAG], abp_security=SECURITY, url_prefix="/api/v1")
+api_docgen = BlueprintApi("Document", __name__, abp_tags=[TAG], url_prefix="/api/v1")
 
 
 @api_docgen.post("/document", responses={"200": DocumentGeneratedResponse})
-@logger.catch
-@jwt_required()
 def generate_document(body: DocumentModel):
-    uuid = doc_generator.generate_doc(body.dict())
-    return DocumentGeneratedResponse(success=True, document_uuid=uuid).dict(), 200
+    if not service_document.is_audit_exist(body.audit_id):
+        return DocumentGeneratedResponse(success=False, msg=f"No audit with id: {body.audit_id}").dict(), 200
+
+    answers = service_document.get_answers(body.audit_id)
+
+    return DocumentGeneratedResponse(
+        success=True,
+        msg=f"Document generate started. Answers count: {len(answers)}"
+    ).dict(), 200
