@@ -5,21 +5,24 @@ from .supabase_interface import SupaBaseClientInterface
 
 class SupabaseClient(SupaBaseClientInterface):
     def init_app(self, app) -> None:
-        self.SUPABASE_URL = app.config.get("SUPABASE_URL")
-        self.SUPABASE_API_KEY = app.config.get("SUPABASE_API_KEY")
-        self.supabase = create_client(self.SUPABASE_URL, self.SUPABASE_API_KEY)
+        SUPABASE_URL = app.config.get("SUPABASE_URL")
+        SUPABASE_API_KEY = app.config.get("SUPABASE_API_KEY")
+        self.supabase = create_client(SUPABASE_URL, SUPABASE_API_KEY)
 
-    def get(self) -> List:
-        query = self.supabase.table("testing_goods").select("*").execute()
+    def get(self, table: str, eq={}, count=None) -> List:
+        query = self.supabase.table(table).select("*", count=count)
 
-        return query.data
+        for key, value in eq.items():
+            query = query.eq(key, value)
+
+        return query.execute().data
 
     def get_item(self, id):
         select = self.supabase.table("testing_goods").select("*").eq("id", id).execute()
 
         return select.data
 
-    def post(self, name, price) -> list:
+    def create(self, name, price) -> list:
         insert = (
             self.supabase.table("testing_goods")
             .insert({"name": name, "price": price})

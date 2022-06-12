@@ -4,7 +4,7 @@ from flask_openapi3 import OpenAPI
 from flask_openapi3.models import Info
 from flask_openapi3.models.security import HTTPBearer
 from firebase_admin import auth
-from app.services import db
+from app.services import db, service_document
 
 
 def create_app(environment="development"):
@@ -22,10 +22,11 @@ def create_app(environment="development"):
     config[env].configure(app)
     app.config["VALIDATE_RESPONSE"] = True
     db.init_app(app)
+    service_document.init_db(db)
     # doc_generator.configure(config[env])
 
+    # views create
     from app.views import api_docgen
-
     app.register_api(api_docgen)
 
     jwt = JWTManager(app)

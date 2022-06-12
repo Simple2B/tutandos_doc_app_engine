@@ -1,56 +1,48 @@
+import json
 from typing import List
 from .supabase_interface import SupaBaseClientInterface
+
+INIT_STATIC_PATH = "tests/static/supabase_init_data.json"
 
 
 class SupabaseMock(SupaBaseClientInterface):
     def __init__(self):
-        self.data = [
-            {
-                "created_at": "2022-05-18T13:41:36+00:00",
-                "id": 1,
-                "name": "Phone",
-                "price": 300,
-            },
-            {
-                "created_at": "2022-05-18T13:42:07+00:00",
-                "id": 2,
-                "name": "Laptop",
-                "price": 1000,
-            },
-            {
-                "created_at": "2022-05-18T13:42:56+00:00",
-                "id": 3,
-                "name": "Fridge",
-                "price": 700,
-            },
-            {
-                "created_at": "2022-05-19T08:16:19.294252+00:00",
-                "id": 5,
-                "name": "Iron",
-                "price": 300,
-            },
-            {
-                "created_at": "2022-05-19T10:00:19.663062+00:00",
-                "id": 6,
-                "name": "IPad",
-                "price": 1500,
-            },
-        ]
+        print("Supabase mock init")
+        with open(INIT_STATIC_PATH) as init_data_f:
+            self.data = json.load(init_data_f)
 
     def init_app(self, app) -> None:
-        pass
+        ...
 
-    def get(self) -> List:
-        query = self.data
+    def get(self, table: str, eq={}, count=None) -> List:
+        # TODO simulate behavior "no such table"
+        # TODO simulate behavior "no such column"
 
-        return query
+        result = []
+        for element in self.data[table]:
+            if count and len(result) >= count:
+                return result
+
+            eq_flag = True
+            for key, value in eq.items():
+                if key in ("id", "audit_id"):
+                    value = str(value)
+
+                if element[key] != value:
+                    eq_flag = False
+                    break
+
+            if eq_flag:
+                result.append(element)
+
+        return result
 
     def get_item(self, id):
         for dictionary in self.data:
             if dictionary["id"] == id:
                 return dictionary
 
-    def post(self, name, price) -> list:
+    def create(self, name, price) -> list:
         insert = {
             "created_at": "2022-05-19T10:00:19.663062+00:00",
             "id": 7,
